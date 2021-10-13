@@ -5,11 +5,14 @@ import java.util.List;
 import org.apache.ibatis.annotations.Select;
 
 import com.joe.domain.BoardVO;
+import com.joe.domain.Criteria;
 
 public interface BoardMapper {
 
 	//@Select("select * from tbl_board where bno > 0")
-	public List<BoardVO> getList();
+	public List<BoardVO> getList(); //글 리스트 불러오기
+	
+	public List<BoardVO> getListWithPaging(Criteria cri); //페이지처리
 	
 	public void insert(BoardVO board); // 글 작성
 	
@@ -20,5 +23,7 @@ public interface BoardMapper {
 	public int delete(Long bno); //글 삭제
 	
 	public int update(BoardVO board); //글 수정
+	
+	public int getTotalCount(Criteria cri); //전체 데이터 개수 처리
 	
 }

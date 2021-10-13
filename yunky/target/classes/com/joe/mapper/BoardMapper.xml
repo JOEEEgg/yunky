@@ -3,48 +3,110 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.joe.mapper.BoardMapper">
-	
+<sql id="criteria">
+	<trim prefix="(" suffix=") AND" prefixOverrides="OR">
+		<foreach item="type" collection="typeArr">
+			<trim prefix="OR">
+				<choose>
+					<when test="type == 'T'.toString()" >
+						title like '%'||#{keyword}||'%'
+					</when>
+					<when test="type == 'C'.toString()" >
+						title like '%'||#{keyword}||'%'
+					</when>
+					<when test="type == 'W'.toString()" >
+						title like '%'||#{keyword}||'%'
+					</when>
+				</choose>
+			</trim>
+		</foreach>
+	</trim>
+</sql>
 	<!-- 목록 구현 쿼리 -->
 	<select id="getList" resultType="com.joe.domain.BoardVO">
 		<![CDATA[
 		select * from tbl_board where bno > 0
 		]]>
 	</select>
-	
+
 	<!-- 글 작성 쿼리 -->
 	<insert id="insert">
-		insert into tbl_board (bno, title, content, writer) values
+		insert into tbl_board (bno, title, content, writer)
+		values
 		(seq_board.nextval, #{title}, #{content}, #{writer})
 	</insert>
-	
+
 	<!-- 글번호 순서대로 증가 -->
 	<insert id="insertSelectKey">
-		<selectKey keyProperty="bno" order="BEFORE" resultType="long">
+		<selectKey keyProperty="bno" order="BEFORE"
+			resultType="long">
 			select seq_board.nextval from dual
 		</selectKey>
-		
+
 		insert into tbl_board (bno, title, content, writer)
-		values (#{bno}, #{title}, #{content}, #{writer})
-		
+		values (#{bno},
+		#{title}, #{content}, #{writer})
+
 	</insert>
-	
+
 	<!-- 글 조회 쿼리 -->
 	<select id="read" resultType="com.joe.domain.BoardVO">
-		select * from tbl_board where bno = #{bno}
+		select * from tbl_board where bno =
+		#{bno}
 	</select>
-	
+
 	<!-- 글 삭제 쿼리 -->
 	<delete id="delete">
 		delete from tbl_board where bno = #{bno}
 	</delete>
-	
+
 	<!-- 글 수정 쿼리 -->
 	<update id="update">
 		update tbl_board
 		set title = #{title},
-		content = #{content},
+		content =
+		#{content},
 		writer = #{writer},
 		updateDate = sysdate
 		where bno = #{bno}
 	</update>
+
+	<!-- 페이지 처리 -->
+	<select id="getListWithPaging" resultType="com.joe.domain.BoardVO">
+			<![CDATA[
+	  select 
+	    bno, title, content, writer, regdate, updatedate
+	  from 
+	      (
+	      select /*+INDEX_DESC(tbl_board pk_board) */
+	        rownum rn, bno, title, content, writer, regdate, updatedate 
+	      from 
+	        tbl_board
+	      where 
+	  ]]>
+
+		<trim prefixOverrides="OR" suffix=") AND " prefix="(">
+			<foreach collection="typeArr" item="type">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">title like '%'||#{keyword}||'%' </when>
+						<when test="type == 'C'.toString()">content like '%'||#{keyword}||'%' </when>
+						<when test="type == 'W'.toString()">writer like '%'||#{keyword}||'%' </when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+		<![CDATA[    
+      		rownum <= #{pageNum} * #{amount}
+		      )
+		  where rn > (#{pageNum} -1) * #{amount}   
+		  ]]>
+	</select>
+
+	<!-- 전체 데이터의 개수 처리 -->
+	<select id="getTotalCount" resultType="int">
+		select count(*) from tbl_board where 
+		<include refid="criteria"/>
+		bno > 0
+	</select>
 </mapper>

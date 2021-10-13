@@ -1,4 +1,4 @@
-package com.joe.community;
+package com.joe.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
