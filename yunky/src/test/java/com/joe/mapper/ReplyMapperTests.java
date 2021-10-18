@@ -1,4 +1,4 @@
-package com.joe.controller;
+package com.joe.mapper;
 
 import java.util.List;
 import java.util.stream.IntStream;
@@ -90,5 +90,15 @@ public class ReplyMapperTests {
 	public void testMapper() {
 		
 		log.info(replyMapper);
+	}
+	
+	@Test
+	public void testList2() {
+		
+		Criteria cri = new Criteria(1, 10);
+		
+		List<ReplyVO> replies = replyMapper.getListWithPaging(cri, 7L);
+		
+		replies.forEach(reply -> log.info(reply));
 	}
 }

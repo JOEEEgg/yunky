@@ -3,6 +3,7 @@ package com.joe.service;
 import java.util.List;
 
 import com.joe.domain.Criteria;
+import com.joe.domain.ReplyPageDTO;
 import com.joe.domain.ReplyVO;
 
 public interface ReplyService {
@@ -17,4 +18,5 @@ public interface ReplyService {
 	
 	public List<ReplyVO> getList(Criteria cri, Long bno); //댓글 전체 불러오기
 
+	public ReplyPageDTO getListPage(Criteria cri, Long bno);
 }

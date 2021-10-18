@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.joe.domain.Criteria;
+import com.joe.domain.ReplyPageDTO;
 import com.joe.domain.ReplyVO;
 import com.joe.service.ReplyService;
 
@@ -51,19 +52,19 @@ public class ReplyController {
 	}
 	
 	//댓글 리스트 불러오기
-	@GetMapping(value = "/pages/{bno}/{page}",
-			produces = {
-					MediaType.APPLICATION_XML_VALUE,
-					MediaType.APPLICATION_JSON_UTF8_VALUE})
-	public ResponseEntity<List<ReplyVO>> getList(
-			@PathVariable("page") int page,
-			@PathVariable("bno") Long bno){
-		
-			log.info("getList.........." );
-			Criteria cri = new Criteria(page, 10);
-			log.info(cri);
-		return new ResponseEntity<>(service.getList(cri, bno), HttpStatus.OK);
-	}
+	/*
+	 * @GetMapping(value = "/pages/{bno}/{page}", produces = {
+	 * MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
+	 * public ResponseEntity<List<ReplyVO>> getList(
+	 * 
+	 * @PathVariable("page") int page,
+	 * 
+	 * @PathVariable("bno") Long bno){
+	 * 
+	 * log.info("getList.........." ); Criteria cri = new Criteria(page, 10);
+	 * log.info(cri); return new ResponseEntity<>(service.getList(cri, bno),
+	 * HttpStatus.OK); }
+	 */
 	
 	//댓글 조회
 	@GetMapping(value = "/{rno}",
@@ -105,4 +106,20 @@ public class ReplyController {
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	//댓글 리스트 불러오기
+	@GetMapping(value = "/pages/{bno}/{page}",
+			produces = {MediaType.APPLICATION_XML_VALUE,
+					MediaType.APPLICATION_JSON_UTF8_VALUE})
+	public ResponseEntity<ReplyPageDTO> getList(@PathVariable("page") int page,
+			@PathVariable("bno") Long bno){
+		
+		Criteria cri = new Criteria(page, 10);
+		
+		log.info("get reply List bno: " + bno);
+		log.info("cri: " + cri);
+		
+		return new ResponseEntity<>(service.getListPage(cri, bno),
+				HttpStatus.OK);
+		
+	}
 }
