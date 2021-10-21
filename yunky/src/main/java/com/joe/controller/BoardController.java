@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.joe.domain.AttachFileDTO;
 import com.joe.domain.BoardVO;
 import com.joe.domain.Criteria;
 import com.joe.domain.PageDTO;
@@ -56,11 +57,20 @@ public class BoardController {
 	@PostMapping("/register")
 	public String register(BoardVO board, RedirectAttributes rttr) {
 		
+		log.info("==============================");
+		
 		log.info("register: " + board);
 		
-		boardService.register(board);
+		if (board.getAttachList() != null) {
+			
+			board.getAttachList().forEach(attach -> log.info(attach));
+		}
 		
-		rttr.addFlashAttribute("result", board.getBno());
+		log.info("===============================");
+		
+		//boardService.register(board);
+		
+		//rttr.addFlashAttribute("result", board.getBno());
 		
 		return "redirect:/board/list";
 	}
