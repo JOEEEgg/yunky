@@ -10,8 +10,7 @@
 	<h1>Upload with Ajax</h1>
 
 
-
-	<style>
+<style>
 .uploadResult {
 	width: 100%;
 	background-color: gray;
@@ -52,6 +51,10 @@
   display:flex;
   justify-content: center;
   align-items: center;
+}
+
+.bigPicture img{
+	width:600px;
 }
 </style>
 
@@ -279,7 +282,7 @@
 		    uploadResult.append(str);
 		  } */
 		  
-/* 		  function showUploadedFile(uploadResultArr){
+		/*   function showUploadedFile(uploadResultArr){
 			    
 		    var str = "";
 		    
@@ -301,7 +304,7 @@
 		    
 		    uploadResult.append(str);
 		  
-		  } */
+		  }  */
 
 /* function showUploadedFile(uploadResultArr){
    
@@ -331,7 +334,7 @@
 
  
 
- function showUploadedFile(uploadResultArr){
+function showUploadedFile(uploadResultArr){
  
    var str = "";
    
@@ -364,7 +367,7 @@
    });
    
    uploadResult.append(str);
- }
+ } 
 
 	</script>
 

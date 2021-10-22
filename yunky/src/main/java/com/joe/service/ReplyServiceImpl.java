@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.joe.domain.Criteria;
 import com.joe.domain.ReplyPageDTO;
@@ -20,6 +21,7 @@ public class ReplyServiceImpl implements ReplyService{
 
 	
 	private ReplyMapper mapper;
+	
 	
 	@Override
 	public int register(ReplyVO vo) {
