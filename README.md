@@ -1,2 +1,3 @@
-# yunky
-community site
+# yunky(비전공자 커뮤니티 사이트)
+---
+
