@@ -44,18 +44,19 @@
 
 	<!-- 한글 설정 관련 설정 -->
 	<filter>
-		<filter-name>encoding</filter-name>
-		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<filter-name>encoding-filter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter
+		</filter-class>
 		<init-param>
 			<param-name>encoding</param-name>
 			<param-value>UTF-8</param-value>
 		</init-param>
 	</filter>
-
 	<filter-mapping>
-		<filter-name>encoding</filter-name>
-		<servlet-name>appServlet</servlet-name>
+		<filter-name>encoding-filter</filter-name>
+		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+
 	
 	<!-- spring-security 설정 -->
 	<filter>

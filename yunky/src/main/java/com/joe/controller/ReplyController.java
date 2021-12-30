@@ -7,6 +7,7 @@ import javax.print.attribute.standard.Media;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +34,7 @@ public class ReplyController {
 	private ReplyService service;
 	
 	//댓글 생성
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping(value = "/new",
 			consumes = "application/json",
 			produces = {MediaType.TEXT_PLAIN_VALUE})
@@ -77,9 +79,10 @@ public class ReplyController {
 	}
 	
 	//댓글 삭제
+	@PreAuthorize("principal.username == #vo.replyer")
 	@DeleteMapping(value = "/{rno}",
 			produces = {MediaType.TEXT_PLAIN_VALUE})
-	public ResponseEntity<String> remove(@PathVariable("rno") Long rno){
+	public ResponseEntity<String> remove(@RequestBody ReplyVO vo, @PathVariable("rno") Long rno){
 		
 		log.info("remove: " + rno);
 		
@@ -89,6 +92,7 @@ public class ReplyController {
 	}
 	
 	//댓글 수정
+	@PreAuthorize("principal.username == #vo.replyer")
 	@RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH},
 			value = "/{rno}",
 			consumes = "application/json",

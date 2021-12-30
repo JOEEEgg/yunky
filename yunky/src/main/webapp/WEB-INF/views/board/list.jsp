@@ -4,7 +4,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@include file="../includes/header.jsp"%>
 
-<div id="page-wrapper">
+<div id="page-wrapper"
+	style="
+	margin-left: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    border-left-width: 0px;
+	">
 	<div class="row">
 		<div class="col-lg-12">
 			<h1 class="page-header">Tables</h1>
